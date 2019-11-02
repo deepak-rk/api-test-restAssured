@@ -26,6 +26,13 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.databind.node.ValueNode;
 
+/**
+ * This class is a wrapper class over map, which converts a {@link JSONObject}
+ * into a flattened map (in case of nested Objects)
+ * 
+ * @author Deepak-rk
+ *
+ */
 public class JsonMap {
     private static final Logger log = LoggerFactory.getLogger(JsonMap.class);
     private static final String DEFAULT_KEY = "id";
@@ -40,7 +47,7 @@ public class JsonMap {
         Iterator<Entry<String, Object>> sortedIt = map.entrySet().iterator();
         while (sortedIt.hasNext()) {
             Entry<String, Object> pair = sortedIt.next();
-            log.debug(pair.getKey() + " = " + pair.getValue());
+            log.debug(pair.getKey() + ":" + pair.getValue());
         }
 
     }
@@ -90,7 +97,7 @@ public class JsonMap {
             for (int j = 0; j < arrayNode.size(); j++) {
                 createMap(path + "[" + j + "]", arrayNode.get(j));
             }
-            // Case 4:
+            // Case 4
         } else {
             log.error("Uknown type for jsonNode - " + jsonNode.toString());
         }
@@ -138,7 +145,7 @@ public class JsonMap {
                         secondValue = secondJson.get(primaryKey);
                     }
                     if (!(firstValue instanceof Comparable && secondValue instanceof Comparable)) {
-                        log.error("Data cannot be compared , first value is of Type '{}', second value is of Type '{}'",
+                        log.warn("Data cannot be compared , first value is of Type '{}', second value is of Type '{}'",
                                 firstValue.getClass().getName(), secondValue.getClass().getName());
                     }
                     compare = firstValue.toString().compareTo(secondValue.toString());
