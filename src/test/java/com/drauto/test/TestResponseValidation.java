@@ -18,8 +18,16 @@ public class TestResponseValidation {
     private static final Logger log = LoggerFactory.getLogger(TestResponseValidation.class);
 
     @Test(dataProvider = "apiUrls")
-    public void responseValidation(String firstAPI, String secondAPI) {
+    public void responseValidationTest(String firstAPI, String secondAPI) {
+        testResponse(firstAPI, secondAPI);
+    }
 
+    @Test(dataProvider = "apiUrlsParallel")
+    public void responseValidationTestParallel(String firstAPI, String secondAPI) {
+        testResponse(firstAPI, secondAPI);
+    }
+
+    private void testResponse(String firstAPI, String secondAPI) {
         if (!(firstAPI != null && !firstAPI.isEmpty())) {
             Assert.fail("Test data for first API is null");
         }
@@ -40,16 +48,25 @@ public class TestResponseValidation {
 
     @DataProvider(name = "apiUrls")
     public Object[][] apiDataPrivider() {
+        return dataProvider("File1", "File2");
+    }
+
+    @DataProvider(name = "apiUrlsParallel", parallel = true)
+    public Object[][] apiDataPrividerParallel() {
+        return dataProvider("File1", "File2");
+    }
+
+    private Object[][] dataProvider(String file1, String file2) {
         Object[][] dataProvider;
-        List<String> file1 = FileUtilities
-                .returnFileAsListOfLines(System.getProperty("user.dir") + "/src/test/resources/File1.txt");
-        List<String> file2 = FileUtilities
-                .returnFileAsListOfLines(System.getProperty("user.dir") + "/src/test/resources/File2.txt");
-        int size = file1.size() >= file2.size() ? file1.size() : file2.size();
+        List<String> list1 = FileUtilities
+                .returnFileAsListOfLines(System.getProperty("user.dir") + "/src/test/resources/" + file1 + ".txt");
+        List<String> list2 = FileUtilities
+                .returnFileAsListOfLines(System.getProperty("user.dir") + "/src/test/resources/" + file2 + ".txt");
+        int size = list1.size() >= list2.size() ? list1.size() : list2.size();
         dataProvider = new Object[size][2];
         for (int i = 0; i < size; i++) {
-            dataProvider[i][0] = file1.get(i).trim();
-            dataProvider[i][1] = file2.get(i).trim();
+            dataProvider[i][0] = list1.get(i).trim();
+            dataProvider[i][1] = list2.get(i).trim();
         }
         return dataProvider;
     }
