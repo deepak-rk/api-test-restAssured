@@ -18,14 +18,6 @@ public class HttpClientRestAssured {
 
     private static final Logger log = LoggerFactory.getLogger(HttpClientRestAssured.class);
 
-    public static void main(String[] args) {
-//
-//        JsonMap expectedMap = getResponse("https://reqres.in/api/users/1");
-//        JsonMap actualMap = getResponse("https://reqres.in/api/users?page=3");
-//        System.out.println(compareMaps(expectedMap, actualMap));
-
-    }
-
     /**
      * @param uRI Path of the API
      * @return response as a flattened json Map
@@ -57,6 +49,9 @@ public class HttpClientRestAssured {
 
     }
 
+    /**
+     * convert query params to map inorder to create the request
+     */
     public Map<String, String> getQueryParams(String queryParam) {
         String[] queryParamArr = queryParam.split("&");
         Map<String, String> map = new HashMap<String, String>();
