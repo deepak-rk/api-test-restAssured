@@ -37,12 +37,25 @@ public class TestResponseValidation {
 
         HttpClientRestAssured httpClientRestAssured = new HttpClientRestAssured();
         JsonMap expectedMap = httpClientRestAssured.getResponse(firstAPI);
+        if (expectedMap == null) {
+            Assert.fail("Expected Map cannot be null");
+
+        }
         JsonMap actualMap = httpClientRestAssured.getResponse(secondAPI);
+        if (actualMap == null) {
+            Assert.fail("Actual Map cannot be null");
+
+        }
         List<String> errors = httpClientRestAssured.compareMaps(expectedMap, actualMap);
+        String response = "equals";
         for (String errorMessage : errors) {
+            response = "not equals";
             log.error(errorMessage);
             Reporter.log(errorMessage);
         }
+        String logMessage = String.format("%s %s %s", firstAPI, response, secondAPI);
+        log.info(logMessage);
+        Reporter.log(logMessage);
         Assert.assertTrue(errors.size() == 0, "Validate Json");
     }
 
