@@ -1,0 +1,1 @@
+# Project to validate API responses
