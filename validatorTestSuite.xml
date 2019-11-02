@@ -1,0 +1,13 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="Assignment to validate API response" verbose="1">
+	<test name="Test suite 1 - FaceBook status">
+		<classes>
+			<class name="com.drauto.test.TestResponseValidation">
+			<methods>
+				<include name="responseValidationTest" />
+			</methods>
+			</class>
+		</classes>
+	</test>
+
+</suite>
